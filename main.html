@@ -1,0 +1,123 @@
+<html>
+<head>
+<script type="text/javascript">
+var key;
+</script>
+ <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+</head>
+<body>
+   <h1>Enter correct word please</h1>
+   <script>
+ $(document).ready(
+function(){
+    var bigword= new Array();
+   
+$.ajax({
+type: "GET",
+url: "word.php",
+success: function(data){
+  var key=data.rack;
+    document.getElementById("1").value= key[0]; 
+                document.getElementById("2").value= key[1];
+                document.getElementById("3").value= key[2];
+                document.getElementById("4").value= key[3];
+                document.getElementById("5").value= key[4];
+                document.getElementById("6").value= key[5];
+                document.getElementById("7").value= key[6];
+            bigword=data.words;
+              $("#swap").on('click',function(){
+  function shuffle(string) {
+    var parts = string.split('');
+    for (var i = 7; i > 0;) {
+        var random = parseInt(Math.random() * i);
+        var temp = parts[--i];
+        parts[i] = parts[random];
+        parts[random] = temp;
+    }
+    return parts.join('');
+}
+
+key=shuffle(key);
+document.getElementById("1").value= key[0]; 
+                document.getElementById("2").value= key[1];
+                document.getElementById("3").value= key[2];
+                document.getElementById("4").value= key[3];
+                document.getElementById("5").value= key[4];
+                document.getElementById("6").value= key[5];
+                document.getElementById("7").value= key[6];
+            
+  
+               });
+}
+
+})
+$("#check").on('click', function(){
+     var enter= document.getElementById("demo").innerHTML;
+    for(var i=1;i<=bigword.length;i++){
+        if(bigword[i]==enter){
+            document.getElementById("score").innerHTML+="bingo<br>";
+            
+            
+        }
+        else{
+            document.getElementById("demo").innerHTML="";
+        }
+    }
+});
+
+});
+</script>
+<p id="demo"></p>
+<br><br>
+<input type="button" id="1" onclick="Me(this)" />
+<input type="button" id="2" onclick="Me(this)" />
+<input type="button" id="3" onclick="Me(this)" />
+<input type="button" id="4" onclick="Me(this)" />
+<input type="button" id="5" onclick="Me(this)" />
+<input type="button" id="6" onclick="Me(this)" />
+<input type="button" id="7" onclick="Me(this)" />
+<br><br>
+
+<input type="button" id="check" value="check" onclick="check()"/>
+<input type="button" id="clean" value="clean" onclick="clean()"/>
+<input type="button" id="swap" value="swap" onclick="swap()"/>
+<p id="score"></p>
+
+
+
+
+<script>
+ function Me(button) {
+    var x = button.value;
+    document.getElementById("demo").innerHTML += x;
+    button.disabled=true;
+}
+function clean(){
+   
+document.getElementById("demo").innerHTML="";
+document.getElementById('1').disabled = false;
+document.getElementById('2').disabled = false;
+document.getElementById('3').disabled = false;
+document.getElementById('4').disabled = false;
+document.getElementById('5').disabled = false;
+document.getElementById('6').disabled = false;
+document.getElementById('7').disabled = false;
+}
+
+</script>
+
+<p>game over<span id="counter">90</span> seconds.</p>
+<script type="text/javascript">
+function countdown() {
+    var i = document.getElementById('counter');
+    if (parseInt(i.innerHTML)<=0) {
+        alert('game over');
+    }
+    i.innerHTML = parseInt(i.innerHTML)-1;
+}
+setInterval(function(){ countdown(); },1000);
+</script>
+
+
+</body>
+</html>
